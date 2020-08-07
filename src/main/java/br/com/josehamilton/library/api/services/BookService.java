@@ -1,22 +1,23 @@
 package br.com.josehamilton.library.api.services;
 
-import br.com.josehamilton.library.api.model.entity.Book;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
+import br.com.josehamilton.library.api.model.entity.Book;
 
 public interface BookService {
 
-    Book save(Book any);
+	Book save(Book any);
 
-    Optional<Book> getById(Long id);
+	Optional<Book> getById(Long id);
 
-    void delete(Book book);
+	void delete(Book book);
 
-    Book update(Book book);
+	Book update(Book book);
 
-    Page<Book> find(Book filter, Pageable pageRequest);
+	Page<Book> find(Book filter, Pageable pageRequest);
 
-    Optional<Book> getBookByIsbn(String isbn);
+	Optional<Book> getBookByIsbn(String isbn);
 }
