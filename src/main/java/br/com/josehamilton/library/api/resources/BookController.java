@@ -58,7 +58,7 @@ public class BookController {
 
 	@GetMapping("{id}")
 	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation("Obtains a book details by id.")]
+	@ApiOperation("Obtains a book details by id.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Book succesfully finded.") })
 	public BookDTO get(@PathVariable Long id) {
 		return service.getById(id).map(book -> modelMapper.map(book, BookDTO.class))
