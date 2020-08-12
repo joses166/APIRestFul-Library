@@ -6,6 +6,10 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -34,6 +38,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/loans")
 @RequiredArgsConstructor
+@Api("Loan API")
 public class LoanController {
 
 	private final LoanService service;
@@ -42,6 +47,8 @@ public class LoanController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@ApiOperation("Creates a loan.")
+	@ApiResponses({ @ApiResponse(code = 201, message = "Loan succesfully created.") })
 	public Long create(@RequestBody @Valid LoanDTO dto) {
 		Book book = bookService.getBookByIsbn(dto.getIsbn()).orElseThrow(
 				() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book not found for passed isbn."));
@@ -52,6 +59,8 @@ public class LoanController {
 
 	@PatchMapping("{id}")
 	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation("Returns a book.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Book succesfully returned.") })
 	public void returnBook(@PathVariable Long id, @RequestBody ReturnedLoanDTO dto) {
 		Loan loan = this.service.getById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		loan.setReturned(dto.getReturned());
@@ -59,6 +68,8 @@ public class LoanController {
 	}
 
 	@GetMapping
+	@ApiOperation("Find loans by params.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Loan succesfully finded.") })
 	public Page<LoanDTO> find(LoanFilterDTO dto, Pageable pageRequest) {
 		Page<Loan> result = service.find(dto, pageRequest);
 		List<LoanDTO> loans = result.getContent().stream().map(entity -> {
