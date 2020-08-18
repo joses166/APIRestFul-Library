@@ -152,7 +152,7 @@ public class BookServiceTest {
 		org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class,
 				() -> service.update(updatedBook));
 		// Verificação
-		verify(repository, Mockito.never()).delete(updatedBook);
+		verify(repository, Mockito.never()).save(updatedBook);
 	}
 
 	@Test

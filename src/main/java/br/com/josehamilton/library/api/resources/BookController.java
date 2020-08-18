@@ -32,11 +32,13 @@ import br.com.josehamilton.library.api.model.entity.Loan;
 import br.com.josehamilton.library.api.services.BookService;
 import br.com.josehamilton.library.api.services.LoanService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/books")
 @RequiredArgsConstructor
 @Api("Book API")
+@Slf4j
 public class BookController {
 
 	private final BookService service;
@@ -48,6 +50,7 @@ public class BookController {
 	@ApiOperation("Creates a book.")
 	@ApiResponses({ @ApiResponse(code = 201, message = "Book succesfully created.") })
 	public BookDTO create(@RequestBody @Valid BookDTO dto) {
+		log.info("Creating a book for isbn: {}", dto.getIsbn());
 		// converte a classe BookDTO em Book
 		Book entity = modelMapper.map(dto, Book.class);
 		// método para salva um novo livro
@@ -61,6 +64,7 @@ public class BookController {
 	@ApiOperation("Obtains a book details by id.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Book succesfully finded.") })
 	public BookDTO get(@PathVariable Long id) {
+		log.info("Obtaining details for book id: {}", id);
 		return service.getById(id).map(book -> modelMapper.map(book, BookDTO.class))
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
@@ -70,6 +74,7 @@ public class BookController {
 	@ApiOperation("Deletes a book by id.")
 	@ApiResponses({@ApiResponse(code = 204, message = "Book succesfully deleted.")})
 	public void delete(@PathVariable Long id) {
+		log.info("Deleting book of id: {}", id);
 		Book book = service.getById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		service.delete(book);
 	}
@@ -79,6 +84,7 @@ public class BookController {
 	@ApiOperation("Updates a book.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Book succesfully updated.") })
 	public BookDTO update(@PathVariable Long id, BookDTO dto) {
+		log.info("Updating book of id: {}", id);
 		return service.getById(id).map(book -> {
 			book.setAuthor(dto.getAuthor());
 			book.setTitle(dto.getTitle());
