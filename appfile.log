@@ -90,3 +90,19 @@
 2020-08-18 11:40:19.939  INFO 16372 --- [main] b.c.j.l.api.resources.BookController     : Deleting book of id: 1
 2020-08-18 11:40:19.970  INFO 16372 --- [main] b.c.j.l.api.resources.BookController     : Obtaining details for book id: 1
 2020-08-18 11:40:20.073  INFO 16372 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-08-18 11:45:54.461  INFO 16092 --- [main] b.c.j.l.api.resource.BookControllerTest  : Starting BookControllerTest on DESKTOP-FJR6BON with PID 16092 (started by tonto in D:\Projetos_Spring\library-api)
+2020-08-18 11:45:54.462  INFO 16092 --- [main] b.c.j.l.api.resource.BookControllerTest  : The following profiles are active: test
+2020-08-18 11:45:57.118  INFO 16092 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-08-18 11:45:57.540  INFO 16092 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-08-18 11:45:57.540  INFO 16092 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-08-18 11:45:57.561  INFO 16092 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 21 ms
+2020-08-18 11:45:57.640  INFO 16092 --- [main] b.c.j.l.api.resource.BookControllerTest  : Started BookControllerTest in 4.236 seconds (JVM running for 7.455)
+2020-08-18 11:45:58.109  INFO 16092 --- [main] b.c.j.l.api.resources.BookController     : Updating book of id: 1
+2020-08-18 11:45:58.319  INFO 16092 --- [main] b.c.j.l.api.resources.BookController     : Creating a book for isbn: 001232
+2020-08-18 11:45:58.338  INFO 16092 --- [main] b.c.j.l.api.resources.BookController     : Updating book of id: 1
+2020-08-18 11:45:58.361  INFO 16092 --- [main] b.c.j.l.api.resources.BookController     : Creating a book for isbn: 001232
+2020-08-18 11:45:58.382  INFO 16092 --- [main] b.c.j.l.api.resources.BookController     : Obtaining details for book id: 1
+2020-08-18 11:45:58.404  INFO 16092 --- [main] b.c.j.l.api.resources.BookController     : Deleting book of id: 1
+2020-08-18 11:45:58.430  INFO 16092 --- [main] b.c.j.l.api.resources.BookController     : Deleting book of id: 1
+2020-08-18 11:45:58.453  INFO 16092 --- [main] b.c.j.l.api.resources.BookController     : Obtaining details for book id: 1
+2020-08-18 11:45:58.507  INFO 16092 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
