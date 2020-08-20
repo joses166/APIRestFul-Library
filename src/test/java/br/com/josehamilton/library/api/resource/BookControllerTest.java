@@ -4,9 +4,11 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Optional;
 
+import br.com.josehamilton.library.api.model.entity.Loan;
 import br.com.josehamilton.library.api.services.LoanService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -235,6 +237,51 @@ public class BookControllerTest {
 				.andExpect(jsonPath("totalElements").value(1)).andExpect(jsonPath("pageable.pageSize").value(100))
 				.andExpect(jsonPath("pageable.pageNumber").value(0));
 
+	}
+
+	@Test
+	@DisplayName("Deve filtrar todos os empréstimos de um determinado livro.")
+	public void findLoansByBook() throws Exception {
+		// Cenário
+		Long id = 1l;
+		Book book = Book.builder().author("TimTim").title("As Aventuras de Tim Tim").isbn("001232").build();;
+		Loan loan = Loan.builder().customer("Fulano").loanDate(LocalDate.now()).book(book).build();
+
+		BDDMockito.given( service.getById(Mockito.anyLong()) ).willReturn( Optional.of(book) );
+		BDDMockito.given( loanService.getLoansByBook( Mockito.any(Book.class), Mockito.any(Pageable.class) ) )
+					.willReturn( new PageImpl<Loan>( Arrays.asList( loan ), PageRequest.of(0, 20), 1 ));
+		// Execução
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+				.get(BOOK_API.concat("/" + id + "/loans"))
+				.accept(MediaType.APPLICATION_JSON);
+		// Verificações
+		mvc
+			.perform(request)
+			.andExpect( status().isOk() )
+			.andExpect( jsonPath("content", hasSize(1)) )
+			.andExpect( jsonPath("totalElements").value(1) )
+			.andExpect( jsonPath("pageable.pageSize").value(20) )
+			.andExpect( jsonPath("pageable.pageNumber").value(0) )
+		;
+	}
+
+	@Test
+	@DisplayName("Deve retornar erro NOT FOUND.")
+	public void findLoansByInexistentBook() throws Exception {
+		// Cenário
+		Long id = 1l;
+		Book book = Book.builder().author("TimTim").title("As Aventuras de Tim Tim").isbn("001232").build();;
+
+		BDDMockito.given( service.getById(Mockito.anyLong()) ).willReturn( Optional.empty() );
+		// Execução
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+				.get(BOOK_API.concat("/" + id + "/loans"))
+				.accept(MediaType.APPLICATION_JSON);
+		// Verificações
+		mvc
+				.perform(request)
+				.andExpect( status().isNotFound() )
+		;
 	}
 
 	private BookDTO createNewBook() {

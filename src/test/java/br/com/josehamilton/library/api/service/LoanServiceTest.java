@@ -18,10 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -141,6 +138,25 @@ public class LoanServiceTest {
 		assertThat(result.getContent()).isEqualTo(list);
 		assertThat(result.getPageable().getPageNumber()).isEqualTo(0);
 		assertThat(result.getPageable().getPageSize()).isEqualTo(10);
+	}
+
+	@Test
+	@DisplayName("Deve retornar empréstimos de um livro.")
+	public void getLoansByBook() {
+		// Cenário
+		Book book = Book.builder().title("some title").author("some author").isbn("123ABC").build();
+		Loan loan = Loan.builder().book(book).loanDate(LocalDate.now()).customer("Fulano").build();
+		PageRequest pageRequest = PageRequest.of(0, 20);
+		List<Loan> list = Arrays.asList(loan);
+		Page<Loan> page = new PageImpl<Loan>( list, pageRequest, 1 );
+		Mockito.when( repository.findByBook(Mockito.any(Book.class), Mockito.any(Pageable.class)) ).thenReturn( page );
+		// Execução
+		Page<Loan> result = service.getLoansByBook(book, pageRequest);
+		// Verificações
+		assertThat( result.getTotalElements() ).isEqualTo( 1 );
+		assertThat( result.getContent() ).isEqualTo( list );
+		assertThat( result.getPageable().getPageNumber() ).isEqualTo( 0 );
+		assertThat( result.getPageable().getPageSize() ).isEqualTo( 20 );
 	}
 
 	public static Loan createLoan() {
