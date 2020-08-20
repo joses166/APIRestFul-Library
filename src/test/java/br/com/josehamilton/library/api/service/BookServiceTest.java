@@ -118,7 +118,7 @@ public class BookServiceTest {
 	@DisplayName("Deve retornar um erro ao tentar excluir um livro a partir de um Id inexistente.")
 	public void deleteInexistentBookTest() {
 		// Cenário
-		Book book = new Book();
+		Book book = null;
 		// Execução
 		org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> service.delete(book));
 		// Verificação
@@ -147,7 +147,7 @@ public class BookServiceTest {
 	@DisplayName("Deve retornar um erro ao tentar alterar um livro inexistente.")
 	public void updateInexistentBookTest() {
 		// Cenário
-		Book updatedBook = new Book();
+		Book updatedBook = null;
 		// Execução
 		org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class,
 				() -> service.update(updatedBook));

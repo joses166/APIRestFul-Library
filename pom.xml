@@ -116,6 +116,15 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.5</version>
+				<configuration>
+					<excludes>
+						<exclude>br/com/josehamilton/library/api/model/entity/*</exclude>
+						<exclude>br/com/josehamilton/library/api/dtos/*</exclude>
+						<exclude>br/com/josehamilton/library/api/services/ScheduleService.*</exclude>
+						<exclude>br/com/josehamilton/library/api/services/impl/EmailServiceImpl.*</exclude>
+						<exclude>br/com/josehamilton/library/api/LibraryApiApplication.*</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>

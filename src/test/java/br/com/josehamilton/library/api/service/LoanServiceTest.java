@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -157,6 +158,20 @@ public class LoanServiceTest {
 		assertThat( result.getContent() ).isEqualTo( list );
 		assertThat( result.getPageable().getPageNumber() ).isEqualTo( 0 );
 		assertThat( result.getPageable().getPageSize() ).isEqualTo( 20 );
+	}
+
+	@Test
+	@DisplayName("Deve retornar empréstimos.")
+	public void getAllLateLoans() {
+		// Cenário
+		Loan loan = createLoan();
+		List<Loan> list = Arrays.asList( loan );
+		Mockito.when( repository.findByLoanDateLessThanAndNotReturned(Mockito.any(LocalDate.class)) ).thenReturn( list );
+		// Verificações
+		List<Loan> result = service.getAllLateLoans();
+		// Execução
+		assertThat( result.size() ).isEqualTo( 1 );
+		assertThat( result ).isEqualTo( list );
 	}
 
 	public static Loan createLoan() {
